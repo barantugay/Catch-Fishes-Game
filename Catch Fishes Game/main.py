@@ -58,6 +58,7 @@ def shot():
         shooting = True
 
 def gameOver():
+    screen.blit(myScore, score_position)
     global running
     if score != 100:
         myText = myFont2.render("GAME OVER", True, (255, 0, 0))
@@ -102,12 +103,15 @@ while running:
         if spear_position.y < 0:
             shooting = False
 
+
     for fish in fishes:
         if spear_position.colliderect(fish['position']):
             score += 1
             shotOK_voice.play()
             myScore = myFont.render(f"Score: {score}", True, (244, 244, 244))
             fishes.remove(fish)
+            shooting = False
+            spear_position = spear_image.get_rect(center=(1000, 1000))
 
     if any(spear_position.colliderect(shark['position']) for shark in sharks):
         spear_position = spear_image.get_rect(center=(spear_position.x, spear_position.y - 64))
